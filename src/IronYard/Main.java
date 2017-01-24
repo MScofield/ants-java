@@ -45,7 +45,7 @@ public class Main extends Application {
     public void drawAnts(GraphicsContext context) {
         context.clearRect(0, 0, WIDTH, HEIGHT);
         for (Ant ant : ants) {
-            context.setFill(Color.BLACK);
+            context.setFill(ant.color);
             context.fillOval(ant.x, ant.y, 5, 5);
         }
     }
@@ -62,6 +62,7 @@ public class Main extends Application {
         }
         ant.x += randomStep();
         ant.x += randomStep();
+        antitude(ant);
         return ant;
     }
 
@@ -69,6 +70,22 @@ public class Main extends Application {
         ants = ants.parallelStream()
                 .map(this::moveAnt)
                 .collect(Collectors.toCollection(ArrayList<Ant>::new));
+    }
+
+    public void antitude (Ant ant) {
+        int count = 0;
+        for (Ant sandycracker : ants) {
+            if (Math.abs(ant.x-sandycracker.x)<10 && Math.abs(ant.y-sandycracker.y)<10){
+                count++;
+            }
+            if (count > 1) {
+                ant.setColor(fire);
+            } else {
+                ant.setColor(smoke);
+            }
+
+
+        }
     }
 
     public static void main(String[] args) {
